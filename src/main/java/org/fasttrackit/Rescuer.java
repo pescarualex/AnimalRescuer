@@ -2,6 +2,6 @@ package org.fasttrackit;
 
 public class Rescuer {
 
-    String nameOfRescuer;
+    String name;
     double budget;
 }
