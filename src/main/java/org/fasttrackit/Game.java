@@ -1,7 +1,7 @@
 package org.fasttrackit;
 
 public class Game {
-    String Rescuer;
-    String Animal;
-    String Veterinarian;
+    Animal animal = new Animal();
+    Rescuer rescuer = new Rescuer();
+    Veterinarian veterinarian = new Veterinarian();
 }
