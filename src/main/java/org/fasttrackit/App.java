@@ -16,8 +16,8 @@ public class App
     dog.name = "Max";
     dog.age = 5;
     dog.breed = "German BRAC";
-    dog.favoriteFood = "dry food";   // like a pedigree
-    dog.favoriteRecreationActivity = "running after the ball";
+    dog.favoriteFood = "Dry food";   // like a pedigree
+    dog.favoriteRecreationActivity = "Running after the ball";
     dog.healthLevel = 2;
     dog.hungerLevel = 2;
     dog.moodLevel = 2;
@@ -29,11 +29,11 @@ public class App
     food.expirationDate = LocalDate.of(2020, 8, 8);
 
     RecreationActivity recreationActivity = new RecreationActivity();
-    recreationActivity.name = "running after the ball";
+    recreationActivity.name = "Running after the ball";
 
     Veterinarian veterinarian = new Veterinarian();
     veterinarian.name = "Bill";
-    veterinarian.specialization = "veterinary medicine";
+    veterinarian.specialization = "Veterinary medicine";
 
     }
 }
