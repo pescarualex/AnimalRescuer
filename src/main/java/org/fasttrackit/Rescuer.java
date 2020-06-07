@@ -1,7 +1,6 @@
 package org.fasttrackit;
 
-public class Rescuer {
+public class Rescuer extends Animal{
 
-    String name;
     double budget;
 }

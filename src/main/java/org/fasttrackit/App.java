@@ -6,8 +6,6 @@ public class App
 {
     public static void main( String[] args ) {
 
-
-
     Rescuer rescuer = new Rescuer();
     rescuer.name = "Alex";
     rescuer.budget = 1000;
