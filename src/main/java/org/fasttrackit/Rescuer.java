@@ -26,7 +26,7 @@ public class Rescuer{
 
     public  void playActivity(Animal animal, RecreationActivity recreationActivity){
 
-        if (recreationActivity.name.equals(recreationActivity.favoriteActivity)){
+        if (recreationActivity.name.equals(animal.favoriteRecreationActivity)){
             System.out.println("It's your favorite activity!");
             animal.moodLevel+= 2;
             System.out.println("Mood level is: " + animal.moodLevel);
