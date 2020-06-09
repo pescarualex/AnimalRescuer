@@ -1,10 +1,14 @@
 package org.fasttrackit;
 
 import java.time.LocalDate;
+import java.util.Scanner;
 
-public class App
-{
+public class App {
+
+
+
     public static void main( String[] args ) {
+        Scanner scanner = new Scanner(System.in);
 
     Rescuer rescuer = new Rescuer();
         rescuer.name = "Alex";
@@ -16,13 +20,19 @@ public class App
         animal.breed = "German BRAC";
         animal.favoriteFood = "Dry";   // like a pedigree
         animal.favoriteRecreationActivity = "Running after the ball";
+        // animal.recreationActivity = "Running";
         animal.healthLevel = 5;
         animal.hungerLevel = 5;
         animal.moodLevel = 5;
 
+    Dog dog = new Dog();
+
+    Cat cat = new Cat();
+
+
     AnimalFood food = new AnimalFood();
         food.price = 50;
-        food.favoriteFood = "Dry food";
+        food.name = "meet";
         food.quantity = 15.5;
         food.expirationDate = LocalDate.of(2020, 8, 8);
 //    AnimalFood food2 = new AnimalFood();
@@ -42,7 +52,7 @@ public class App
 
 
 
-    rescuer.feeding(animal, food);
+ //   rescuer.feeding(animal, food);
     rescuer.playActivity(animal,recreationActivity);
     }
 }
