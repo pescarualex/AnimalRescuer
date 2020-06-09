@@ -45,8 +45,9 @@ public class App {
 
 
 
- //   rescuer.feeding(animal, food);
+    //rescuer.feeding(animal, food);
     rescuer.playActivity(animal,recreationActivity);
+
     }
 }
 
