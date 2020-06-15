@@ -6,6 +6,10 @@ public class Dog extends Animal{
    private int levelOfAggression;
    private static final int levelOfCuriozity = 8;
 
+    public Dog(String name, String breed, int age) {
+        super(name, breed, age);
+    }
+
     public String getWaist() {
         return waist;
     }
