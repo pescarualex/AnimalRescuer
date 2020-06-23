@@ -23,9 +23,11 @@ public class App {
 //        animal.setGender("Masculin");
 
     Dog dog = new Dog("Max", "German BRAC", 5);
+        dog.dysplayAnimalMood();
+
 
     Cat cat = new Cat("Tesa","British Shorthair", 5 );
-
+        cat.dysplayAnimalMood();
 
     AnimalFood food = new AnimalFood();
         food.setPrice(50);

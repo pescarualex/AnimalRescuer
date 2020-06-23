@@ -19,6 +19,16 @@ public class Animal {
         this.age = age;
     }
 
+
+    public Animal dysplayAnimalMood() {
+        if (getMoodLevel() > 5) {
+            System.out.println("Mood level is " + getMoodLevel());
+        }
+        return this;
+    }
+
+
+
     public String getName() {
         return name;
     }

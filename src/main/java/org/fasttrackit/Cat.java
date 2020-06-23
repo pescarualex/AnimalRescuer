@@ -9,6 +9,12 @@ public class Cat extends  Animal{
         }
 
 
+        @Override
+        public Cat dysplayAnimalMood() {
+                System.out.println("The mood level is increase. The cat began to spin. So cute!!");
+                return this;
+        }
+
         public int getSleepADay() {
                 return sleepADay;
         }

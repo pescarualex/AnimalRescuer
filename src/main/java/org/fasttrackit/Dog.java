@@ -10,6 +10,12 @@ public class Dog extends Animal{
         super(name, breed, age);
     }
 
+    @Override
+    public Dog dysplayAnimalMood() {
+        System.out.println("The mood level is increse. The dog wags its tail. It is so happy!!");
+        return this;
+    }
+
     public String getWaist() {
         return waist;
     }
