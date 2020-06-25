@@ -10,7 +10,7 @@ public class Cat extends  Animal{
 
 
         @Override
-        public void Cat dysplayAnimalMood() {
+        public Cat dysplayAnimalMood() {
                 System.out.println("The mood level is increase. The cat began to spin. So cute!!");
                 return this;
         }
