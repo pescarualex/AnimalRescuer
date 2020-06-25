@@ -20,7 +20,7 @@ public class Animal {
     }
 
 
-    public Animal dysplayAnimalMood() {
+    public void Animal dysplayAnimalMood() {
         if (getMoodLevel() > 5) {
             System.out.println("Mood level is " + getMoodLevel());
         }
