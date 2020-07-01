@@ -12,7 +12,7 @@ public class Dog extends Animal{
 
     @Override
     public Dog dysplayAnimalMood() {
-        System.out.println("The mood level is increse. The dog wags its tail. It is so happy!!");
+        System.out.println("The mood level is increse. The dog wags it's tail. It is so happy!!");
         return this;
     }
 
