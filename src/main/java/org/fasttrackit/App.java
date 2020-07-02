@@ -1,11 +1,18 @@
 package org.fasttrackit;
 
+import org.fasttrackit.domain.*;
+import org.fasttrackit.service.Game;
+
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class App {
     public static void main( String[] args ) {
         Scanner scanner = new Scanner(System.in);
+
+        Game play = new Game();
+        play.start();
+
 
     Rescuer rescuer = new Rescuer();
         rescuer.setName("Alex");
@@ -22,12 +29,11 @@ public class App {
         animal.setMoodLevel(5);
         animal.setGender("Masculin");
 
-    Animal dog = new Dog("Max", "German BRAC", 5);
-        dog.dysplayAnimalMood();
 
+    Animal dog = new Dog("Max", "German BRAC", 5);
 
     Animal cat = new Cat("Tesa","British Shorthair", 5 );
-        cat.dysplayAnimalMood();
+
 
     AnimalFood food = new AnimalFood();
         food.setPrice(50);
@@ -41,12 +47,6 @@ public class App {
     Veterinarian veterinarian = new Veterinarian();
         veterinarian.setName("Bill");
         veterinarian.setSpecialization("Veterinary medicine");
-
-
-
-
-    //rescuer.feeding(animal, food);
-    //rescuer.playActivity(animal,recreationActivity);
 
     }
 }

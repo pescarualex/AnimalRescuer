@@ -1,10 +1,10 @@
-package org.fasttrackit;
+package org.fasttrackit.domain;
 
 public class Dog extends Animal{
 
    private String waist;
    private int levelOfAggression;
-   private static final int levelOfCuriozity = 8;
+   private static final int LEVEL_OF_CURIOSITY = 8;
 
     public Dog(String name, String breed, int age) {
         super(name, breed, age);
@@ -30,6 +30,6 @@ public class Dog extends Animal{
 
 
     public static int getLevelOfCuriozity() {
-        return levelOfCuriozity;
+        return LEVEL_OF_CURIOSITY;
     }
 }
