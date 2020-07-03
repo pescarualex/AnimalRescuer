@@ -20,4 +20,12 @@ public class Veterinarian{
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
+
+    @Override
+    public String toString() {
+        return "Veterinarian{" +
+                "name='" + name + '\'' +
+                ", specialization='" + specialization + '\'' +
+                '}';
+    }
 }

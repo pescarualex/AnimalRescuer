@@ -1,15 +1,22 @@
 package org.fasttrackit.service;
 
+import org.fasttrackit.controler.StdInControler;
+import org.fasttrackit.controler.utils.ScannerUtils;
 import org.fasttrackit.domain.*;
+import org.fasttrackit.domain.animals.Animal;
+import org.fasttrackit.domain.animals.Cat;
+import org.fasttrackit.domain.animals.Dog;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-    Animal animal = new Animal("Max", "German BRAC", 5);
-    Rescuer rescuer = new Rescuer();
-    Veterinarian veterinarian = new Veterinarian();
+//    Animal animal = new Animal("Max", "German BRAC", 5);
+//    Rescuer rescuer = new Rescuer();
+//    Veterinarian veterinarian = new Veterinarian();
+
+    StdInControler controler = new StdInControler();
 
     private List<AnimalFood> availableFoods = new ArrayList<>();
     private RecreationActivity[] availableActivitys = new RecreationActivity[3];
@@ -17,12 +24,39 @@ public class Game {
 
     public void start() {
         System.out.println("Welcome to the Animal Rescuer game!");
+        System.out.println();
 
-        initFood();
-        System.out.println("");
-        initActivity();
     }
 
+
+    private void initDog() {
+        Animal dog = new Dog();
+        System.out.println("Enter the name please: ");
+        dog.setName(controler.getNameOfDog());
+        dog.setBreed("German BRAC");
+        dog.setAge(5);
+        dog.setGender("Male");
+        dog.setFavoriteFood("Dry food");
+        dog.setFavoriteRecreationActivity("Running after the ball.");
+        dog.setHealthLevel(5);
+        dog.setHungerLevel(3);
+        dog.setMoodLevel(4);
+    }
+
+    private void initCat() {
+        Animal cat = new Cat();
+        System.out.println("Enter the name please: ");
+        cat.setName(controler.getNameOfCat());
+        cat.setBreed("British Shorthair");
+        cat.setAge(3);
+        cat.setGender("Female");
+        cat.setFavoriteFood("Whiskas");
+        cat.setFavoriteRecreationActivity("Capnit toys");
+        cat.setHealthLevel(3);
+        cat.setHungerLevel(3);
+        cat.setMoodLevel(4);
+
+    }
 
 
     private void initFood() {
@@ -40,9 +74,9 @@ public class Game {
 
         AnimalFood thirdFood = new AnimalFood();
         thirdFood.setName("Chicken");
-        secondFood.setPrice(38);
-        secondFood.setQuantity(6);
-        secondFood.setExpirationDate(LocalDate.of(2020, 7, 26));
+        thirdFood.setPrice(38);
+        thirdFood.setQuantity(6);
+        thirdFood.setExpirationDate(LocalDate.of(2020, 7, 26));
 
         availableFoods.add(food);
         availableFoods.add(secondFood);
@@ -55,11 +89,10 @@ public class Game {
     private void displayFood() {
         System.out.println("Available food: ");
 
-        for (int i = 0; i < availableFoods.size(); i++){
+        for (int i = 0; i < availableFoods.size(); i++) {
             System.out.println(i + 1 + ". " + availableFoods.get(i).getName());
         }
     }
-
 
 
     private void initActivity() {

@@ -1,4 +1,4 @@
-package org.fasttrackit.domain;
+package org.fasttrackit.domain.animals;
 
 public class Dog extends Animal{
 
@@ -8,6 +8,10 @@ public class Dog extends Animal{
 
     public Dog(String name, String breed, int age) {
         super(name, breed, age);
+    }
+
+    public Dog() {
+        super();
     }
 
     @Override
@@ -31,5 +35,14 @@ public class Dog extends Animal{
 
     public static int getLevelOfCuriozity() {
         return LEVEL_OF_CURIOSITY;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Dog{" +
+                "waist='" + waist + '\'' +
+                ", levelOfAggression=" + levelOfAggression +
+                "} " + super.toString();
     }
 }

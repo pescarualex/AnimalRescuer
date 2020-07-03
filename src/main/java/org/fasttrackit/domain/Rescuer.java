@@ -1,5 +1,7 @@
 package org.fasttrackit.domain;
 
+import org.fasttrackit.domain.animals.Animal;
+
 public class Rescuer{
 
    private String name;
@@ -54,5 +56,13 @@ public class Rescuer{
 
     public void setBudget(double budget) {
         this.budget = budget;
+    }
+
+    @Override
+    public String toString() {
+        return "Rescuer{" +
+                "name='" + name + '\'' +
+                ", budget=" + budget +
+                '}';
     }
 }

@@ -40,5 +40,15 @@ public class AnimalFood {
     public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
+
+    @Override
+    public String toString() {
+        return "AnimalFood{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", expirationDate=" + expirationDate +
+                '}';
+    }
 }
 

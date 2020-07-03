@@ -1,4 +1,4 @@
-package org.fasttrackit.domain;
+package org.fasttrackit.domain.animals;
 
 public class Animal {
 
@@ -13,10 +13,15 @@ public class Animal {
    public int moodLevel;
 
 
+
+
     public Animal(String name, String breed, int age) {
         this.name = name;
         this.breed = breed;
         this.age = age;
+    }
+
+    public Animal() {
     }
 
 
@@ -102,4 +107,18 @@ public class Animal {
     }
 
 
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "name='" + name + '\'' +
+                ", breed='" + breed + '\'' +
+                ", favoriteFood='" + favoriteFood + '\'' +
+                ", favoriteRecreationActivity='" + favoriteRecreationActivity + '\'' +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+                ", healthLevel=" + healthLevel +
+                ", hungerLevel=" + hungerLevel +
+                ", moodLevel=" + moodLevel +
+                '}';
+    }
 }

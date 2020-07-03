@@ -1,4 +1,4 @@
-package org.fasttrackit.domain;
+package org.fasttrackit.domain.animals;
 
 public class Cat extends  Animal{
 
@@ -6,6 +6,11 @@ public class Cat extends  Animal{
 
         public Cat(String name, String breed, int age) {
                 super(name, breed, age);
+        }
+
+        public Cat() {
+                super();
+
         }
 
 
@@ -21,5 +26,12 @@ public class Cat extends  Animal{
 
         public void setSleepADay(int sleepADay) {
                 this.sleepADay = sleepADay;
+        }
+
+        @Override
+        public String toString() {
+                return "Cat{" +
+                        "sleepADay=" + sleepADay +
+                        "} " + super.toString();
         }
 }
