@@ -27,7 +27,8 @@ public class Game {
         System.out.println("Welcome to the Animal Rescuer game!");
         System.out.println();
 
-        initFood();
+        displayFood();
+        displayActivity();
 
     }
 
