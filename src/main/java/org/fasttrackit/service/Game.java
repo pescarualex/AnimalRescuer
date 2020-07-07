@@ -7,6 +7,7 @@ import org.fasttrackit.domain.animals.Animal;
 import org.fasttrackit.domain.animals.Cat;
 import org.fasttrackit.domain.animals.Dog;
 
+import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,8 @@ public class Game {
     public void start() {
         System.out.println("Welcome to the Animal Rescuer game!");
         System.out.println();
+
+        initFood();
 
     }
 
@@ -89,8 +92,11 @@ public class Game {
     private void displayFood() {
         System.out.println("Available food: ");
 
-        for (int i = 0; i < availableFoods.size(); i++) {
-            System.out.println(i + 1 + ". " + availableFoods.get(i).getName());
+        int count = 0;
+
+        for (AnimalFood food : availableFoods) {
+            count++;
+            System.out.println(count + ". " + food.getName());
         }
     }
 
