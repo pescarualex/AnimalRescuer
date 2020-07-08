@@ -5,11 +5,11 @@ import org.fasttrackit.controler.utils.ScannerUtils;
 public class StdInControler {
 
     public String getNameOfDog() {
-        return ScannerUtils.readNetSingleLine();
+        return ScannerUtils.readNextSingleLine();
     }
 
     public String getNameOfCat() {
-        return ScannerUtils.readNetSingleLine();
+        return ScannerUtils.readNextSingleLine();
     }
 
 

@@ -2,22 +2,25 @@ package org.fasttrackit.service;
 
 import org.fasttrackit.controler.StdInControler;
 import org.fasttrackit.controler.utils.ScannerUtils;
-import org.fasttrackit.domain.*;
+import org.fasttrackit.domain.AnimalFood;
+import org.fasttrackit.domain.RecreationActivity;
+import org.fasttrackit.domain.Rescuer;
 import org.fasttrackit.domain.animals.Animal;
 import org.fasttrackit.domain.animals.Cat;
 import org.fasttrackit.domain.animals.Dog;
 
-import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class Game {
-//    Animal animal = new Animal("Max", "German BRAC", 5);
-//    Rescuer rescuer = new Rescuer();
-//    Veterinarian veterinarian = new Veterinarian();
+
+    int countInputTimes = 1;
 
     StdInControler controler = new StdInControler();
+    Rescuer rescuer = new Rescuer();
 
     private List<AnimalFood> availableFoods = new ArrayList<>();
     private RecreationActivity[] availableActivitys = new RecreationActivity[3];
@@ -26,16 +29,68 @@ public class Game {
     public void start() {
         System.out.println("Welcome to the Animal Rescuer game!");
         System.out.println();
+        initRescuer(rescuer);
+        System.out.println();
+        System.out.println("There are abandoned just cats and dogs. \n" +
+                "Which do you prefer? ");
 
-        displayFood();
-        displayActivity();
+        selectAnAnimal();
+
+
+
+
+
+
 
     }
 
 
+    public Rescuer initRescuer( Rescuer rescuer) {
+        this.rescuer = rescuer;
+        rescuer = new Rescuer();
+
+        System.out.println("Please enter the name of rescuer: ");
+
+        try {
+            rescuer.setName(ScannerUtils.readNextSingleLine());
+        } catch (Exception e) {
+            System.out.println("You have entered an invalid name. \n" +
+                    "Please try again.");
+            return initRescuer(rescuer);
+        }
+    return rescuer;
+    }
+
+
+    public void selectAnAnimal() {
+
+        countInputTimes++;
+
+        String choosseAnimal = ScannerUtils.readNextSingleLine();
+
+        if (choosseAnimal.equalsIgnoreCase("cat")) {
+            initCat();
+        } else if (choosseAnimal.equalsIgnoreCase("dog")) {
+            initDog();
+        } else {
+            System.out.println("We don't have that..\n" +
+                    "Cats and dogs, just that.");
+
+            if (countInputTimes > 5) {
+                System.out.println("If you not understand, \n" +
+                        "Goodbye!!!");
+                System.exit(0);
+            }
+
+            selectAnAnimal();
+
+
+        }
+    }
+
     private void initDog() {
         Animal dog = new Dog();
-        System.out.println("Enter the name please: ");
+        System.out.println("What name want to give him? ");
         dog.setName(controler.getNameOfDog());
         dog.setBreed("German BRAC");
         dog.setAge(5);
@@ -45,6 +100,7 @@ public class Game {
         dog.setHealthLevel(5);
         dog.setHungerLevel(3);
         dog.setMoodLevel(4);
+
     }
 
     private void initCat() {

@@ -1,10 +1,12 @@
 package org.fasttrackit.domain;
 
+import org.fasttrackit.controler.utils.ScannerUtils;
 import org.fasttrackit.domain.animals.Animal;
 
 public class Rescuer{
 
-   private String name;
+    public org.fasttrackit.controler.utils.ScannerUtils ScannerUtils;
+    private String name;
    private double budget;
 
 

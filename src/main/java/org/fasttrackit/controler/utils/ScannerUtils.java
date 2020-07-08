@@ -13,7 +13,7 @@ public class ScannerUtils {
     }
 
 
-    public static String readNetSingleLine() {
+    public static String readNextSingleLine() {
         String value = SCANNER.next();
         SCANNER.nextLine();
         return  value;
