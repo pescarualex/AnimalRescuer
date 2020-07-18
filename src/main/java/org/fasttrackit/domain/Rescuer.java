@@ -16,11 +16,11 @@ public class Rescuer{
         if (food.getName().equals(animal.getFavoriteFood())) {
             System.out.println("Yeah, it's your favorite food.");
             animal.setMoodLevel(animal.getHungerLevel() + 2);
-            System.out.println("Mood level is: " + animal.getHungerLevel());
+            System.out.println("Hunger level is: " + animal.getHungerLevel());
         } else {
             System.out.println("Yes, i know, is not your favorite food.");
-            animal.setMoodLevel(animal.getHungerLevel() - 1);
-            System.out.println("Mood level is: " + animal.getHungerLevel());
+            animal.setMoodLevel(animal.getHungerLevel() + 1);
+            System.out.println("Hunger level is: " + animal.getHungerLevel());
         }
 
         System.out.println(name + " just gave some " + food.getName() + " to " + animal.getName() + ".");

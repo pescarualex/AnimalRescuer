@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class App {
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws InterruptedException {
 
         Game play = new Game();
         play.start();
