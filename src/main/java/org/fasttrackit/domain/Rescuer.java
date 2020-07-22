@@ -1,19 +1,22 @@
 package org.fasttrackit.domain;
 
-import org.fasttrackit.controler.utils.ScannerUtils;
 import org.fasttrackit.domain.animals.Animal;
+import org.fasttrackit.controler.StdInControler;
+import org.fasttrackit.controler.utils.ScannerUtils;
 
 public class Rescuer{
 
-    public org.fasttrackit.controler.utils.ScannerUtils ScannerUtils;
     private String name;
-   private double budget;
+    private double budget;
+    Animal animal;
+    String food;
 
 
 
-    public void feeding(Animal animal, AnimalFood food) {
+    public void feeding() {
+        setFood(ScannerUtils.readNextSingleLine());
 
-        if (food.getName().equals(animal.getFavoriteFood())) {
+        if (getFood().equals(animal.getFavoriteFood())) {
             System.out.println("Yeah, it's your favorite food.");
             animal.setMoodLevel(animal.getHungerLevel() + 2);
             System.out.println("Hunger level is: " + animal.getHungerLevel());
@@ -23,7 +26,7 @@ public class Rescuer{
             System.out.println("Hunger level is: " + animal.getHungerLevel());
         }
 
-        System.out.println(name + " just gave some " + food.getName() + " to " + animal.getName() + ".");
+        System.out.println(name + " just gave some " + food + " to " + animal.getName() + ".");
 
     }
 
@@ -42,6 +45,13 @@ public class Rescuer{
 
         System.out.println(name + " is playing " + recreationActivity.getName() + " with " + animal.getName() );
 
+    }
+    public String getFood() {
+        return food;
+    }
+
+    public void setFood(String food) {
+        this.food = food;
     }
 
     public String getName() {
