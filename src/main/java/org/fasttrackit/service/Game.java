@@ -27,6 +27,7 @@ public class Game {
     Animal animal;
     AnimalFood food;
     RecreationActivity activity;
+    int x = 0;
 
     private int countTheRound = 1;
     private boolean winnerNotKnow = true;
@@ -234,48 +235,53 @@ public class Game {
 
 
     private void initFood() throws InterruptedException {
-        AnimalFood food = new AnimalFood();
-        food.setName("Dry food");
-        food.setPrice(50);
-        food.setQuantity(5);
-        food.setExpirationDate(LocalDate.of(2020, 9, 15));
+        if (x == 0) {
+            AnimalFood food = new AnimalFood();
+            food.setName("Dry food");
+            food.setPrice(50);
+            food.setQuantity(5);
+            food.setExpirationDate(LocalDate.of(2020, 9, 15));
 
-        AnimalFood secondFood = new AnimalFood();
-        secondFood.setName("Meet");
-        secondFood.setPrice(42);
-        secondFood.setQuantity(3);
-        secondFood.setExpirationDate(LocalDate.of(2020, 9, 17));
+            AnimalFood secondFood = new AnimalFood();
+            secondFood.setName("Meet");
+            secondFood.setPrice(42);
+            secondFood.setQuantity(3);
+            secondFood.setExpirationDate(LocalDate.of(2020, 9, 17));
 
-        AnimalFood thirdFood = new AnimalFood();
-        thirdFood.setName("Chicken");
-        thirdFood.setPrice(38);
-        thirdFood.setQuantity(6);
-        thirdFood.setExpirationDate(LocalDate.of(2020, 7, 26));
+            AnimalFood thirdFood = new AnimalFood();
+            thirdFood.setName("Chicken");
+            thirdFood.setPrice(38);
+            thirdFood.setQuantity(6);
+            thirdFood.setExpirationDate(LocalDate.of(2020, 7, 26));
 
-        AnimalFood fourFood = new AnimalFood();
-        fourFood.setName("Whiskas");
-        fourFood.setPrice(30);
-        fourFood.setQuantity(4);
-        fourFood.setExpirationDate(LocalDate.of(2020, 9, 23));
+            AnimalFood fourFood = new AnimalFood();
+            fourFood.setName("Whiskas");
+            fourFood.setPrice(30);
+            fourFood.setQuantity(4);
+            fourFood.setExpirationDate(LocalDate.of(2020, 9, 23));
 
-        AnimalFood fiveFood = new AnimalFood();
-        fiveFood.setName("Wet food");
-        fiveFood.setPrice(25);
-        fiveFood.setQuantity(8);
-        fiveFood.setExpirationDate(LocalDate.of(2020, 10, 3));
+            AnimalFood fiveFood = new AnimalFood();
+            fiveFood.setName("Wet food");
+            fiveFood.setPrice(25);
+            fiveFood.setQuantity(8);
+            fiveFood.setExpirationDate(LocalDate.of(2020, 10, 3));
 
-        AnimalFood sixFood = new AnimalFood();
-        sixFood.setName("Chiken in souce");
-        sixFood.setPrice(65);
-        sixFood.setQuantity(6);
-        sixFood.setExpirationDate(LocalDate.of(2020, 11, 9));
+            AnimalFood sixFood = new AnimalFood();
+            sixFood.setName("Chiken in souce");
+            sixFood.setPrice(65);
+            sixFood.setQuantity(6);
+            sixFood.setExpirationDate(LocalDate.of(2020, 11, 9));
 
-        availableFoods.add(food);
-        availableFoods.add(secondFood);
-        availableFoods.add(thirdFood);
-        availableFoods.add(fourFood);
-        availableFoods.add(fiveFood);
-        availableFoods.add(sixFood);
+            availableFoods.add(food);
+            availableFoods.add(secondFood);
+            availableFoods.add(thirdFood);
+            availableFoods.add(fourFood);
+            availableFoods.add(fiveFood);
+            availableFoods.add(sixFood);
+
+            x = 1;
+        }
+
 
         displayFood();
     }
