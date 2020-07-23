@@ -11,26 +11,28 @@ import org.fasttrackit.domain.animals.Dog;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 
 public class Game {
 
-    int countInputTimes = 1;
-
-
     StdInControler controler = new StdInControler();
+
     Rescuer rescuer = new Rescuer();
     Animal dog;
     Animal cat;
-    String choosseAnimal;
+    Animal animal;
+    AnimalFood food;
+    RecreationActivity activity;
 
-
+    private int countTheRound = 1;
+    private boolean winnerNotKnow = true;
 
     private List<AnimalFood> availableFoods = new ArrayList<>();
-    private RecreationActivity[] availableActivitys = new RecreationActivity[3];
-
+    private RecreationActivity[] availableActivitys = new RecreationActivity[5];
 
     public void start() throws InterruptedException {
         System.out.println("Welcome to the Animal Rescuer game!");
@@ -39,53 +41,119 @@ public class Game {
         initRescuer(rescuer);
 
         System.out.println();
-        System.out.println("There are abandoned just cats and dogs. \n" +
-                "Which do you prefer? ");
+        System.out.println("There are abandoned just cats and dogs.");
 
-        selectAnAnimal(choosseAnimal);
+        selectAnAnimal();
 
         System.out.println("Let's go home now!");
-        TimeUnit.SECONDS.sleep(2);
+        TimeUnit.SECONDS.sleep(1);
 
-        requireFeeding();
+
+        while (countTheRound < 6 && winnerNotKnow) {
+            playOneRound();
+        }
+
+        if (winnerNotKnow) {
+            System.out.println();
+            System.out.println("You lost the game. Try again!\n" +
+                    "Hunger level is " + animal.getHungerLevel() + "\n" +
+                    "Mood level is " + animal.getMoodLevel());
+        }
+
 
     }
 
-
-    private void requireFeeding() throws InterruptedException {
+    private void playOneRound() throws InterruptedException {
         System.out.println();
-
-        System.out.println("I got home. \n" +
-                "Do you want to give some food to eat?(y/n)");
-        String selectAnswer = ScannerUtils.readNextSingleLine();
-
-        if (selectAnswer.equalsIgnoreCase("Y")) {
-            initFood();
-
-            System.out.println("What you give?");
-
-            rescuer.feeding();
+        System.out.println("What do you want?\n" +
+                "1. Give some food to eat\n" +
+                "2. Play an activity");
 
 
+        int getChooiseFromUser = ScannerUtils.readNextSingleInt();
+        System.out.println();
+        System.out.println("Round " + countTheRound++);
+        if (getChooiseFromUser == 1) {
+            requireFeeding();
+        } else {
+            requireActivity();
+        }
 
-        } else if (selectAnswer.equalsIgnoreCase("N")) {
-            System.out.println("Ok.. Do you want to play a game?(y/n)");
-            String selectAnswerForPlaying = ScannerUtils.readNextSingleLine();
-            if (selectAnswerForPlaying.equalsIgnoreCase("Y")) {
-                requirePlayActivity();
-            } else if (selectAnswerForPlaying.equalsIgnoreCase("N")) {
-                System.out.println("If you do not want to feed and play animal, \n" +
-                        "That means you lost the game.\n" +
-                        "Goodbye! :)");
-            }
+        if (animal.getHungerLevel() >= 8 && animal.getMoodLevel() >= 8) {
+            System.out.println();
+            System.out.println("You win the game! Congratz!\n" +
+                    "Hunger level is " + animal.getHungerLevel() + "\n" +
+                    "Mood level is " + animal.getMoodLevel());
+            winnerNotKnow = false;
         }
     }
 
 
+    private void requireFeeding() throws InterruptedException {
+        System.out.println("Do you want to give something to eat to " + animal.getName() + "?(Y/N)");
+        String selectAnswer = ScannerUtils.readNextSingleLine();
 
-    private void requirePlayActivity() {
-        initActivity();
+        if (selectAnswer.equalsIgnoreCase("Y")) {
+            initFood();
+            rescuer.feeding(animal, getFoodFromUser(food));
+        } else if (selectAnswer.equalsIgnoreCase("N")) {
+            System.out.println("You want to eat..ok.");
+        }
     }
+
+    private void requireActivity() throws InterruptedException {
+        System.out.println("Do you want to play a game with " + animal.getName() + "?(Y/N)");
+        String selectAnswer = ScannerUtils.readNextSingleLine();
+
+        if (selectAnswer.equalsIgnoreCase("Y")) {
+            initActivity();
+            rescuer.playActivity(animal, getActivityFromUser(activity));
+        } else if (selectAnswer.equalsIgnoreCase("N")) {
+            System.out.println("Ohh, you are lazy.. ");
+        }
+    }
+
+    private AnimalFood getFoodFromUser( AnimalFood food) {
+        this.food = food;
+        for (AnimalFood dish : availableFoods) {
+            System.out.println("What you give?");
+            int chooseFood = ScannerUtils.readNextSingleInt();
+            if (chooseFood == 1) {
+                food = availableFoods.get(0);
+            } else if (chooseFood == 2) {
+                food = availableFoods.get(1);
+            } else if (chooseFood == 3) {
+                food = availableFoods.get(2);
+            } else if (chooseFood == 4) {
+                food = availableFoods.get(3);
+            } else if (chooseFood == 5) {
+                food = availableFoods.get(4);
+            } else if (chooseFood == 6) {
+                food = availableFoods.get(5);
+            }
+            return food;
+        }
+        return food;
+    }
+
+    private RecreationActivity getActivityFromUser(RecreationActivity activity) {
+        this.activity = activity;
+        System.out.println("What activity want to play with " + animal.getName() + "?");
+        int chooseActivity = ScannerUtils.readNextSingleInt();
+        if (chooseActivity == 1) {
+            activity = availableActivitys[0];
+        } else if (chooseActivity == 2) {
+            activity = availableActivitys[1];
+        } else if (chooseActivity == 3) {
+            activity = availableActivitys[2];
+        } else if (chooseActivity == 4) {
+            activity = availableActivitys[3];
+        } else if (chooseActivity == 5) {
+            activity = availableActivitys[4];
+        }
+        return activity;
+    }
+
 
     public String getNameOfAnimal() {
         return controler.getNameOfAnimal();
@@ -107,32 +175,30 @@ public class Game {
     }
 
 
-    private Object selectAnAnimal(String choosseAnimal) {
-        this.choosseAnimal = choosseAnimal;
+    private void selectAnAnimal() {
 
-        countInputTimes++;
+        System.out.println("Which type of animal do you prefer?(Please enter the number)");
+        System.out.println("1. Dog");
+        System.out.println("2. Cat");
 
-         choosseAnimal = ScannerUtils.readNextSingleLine();
 
+        try {
+            Scanner scanner = new Scanner(System.in);
+            int i = scanner.nextInt();
 
-        if (choosseAnimal.equalsIgnoreCase("cat")) {
-            return initCat();
-        } else if (choosseAnimal.equalsIgnoreCase("dog")) {
-            return initDog();
-        } else {
-            System.out.println("We don't have that..\n" +
-                    "Cats and dogs, just that.");
+            if (i == 1) {
+                animal = initDog();
+                System.out.println("Your animal is a Dog, named: " + animal.getName());
 
-            if (countInputTimes > 5) {
-                System.out.println("If you not understand, \n" +
-                        "Goodbye!!!");
-                System.exit(0);
+            } else {
+                animal = initCat();
+                System.out.println("Your animal is a Cat, named: " + animal.getName());
             }
-
-            selectAnAnimal(choosseAnimal);
+        } catch (InputMismatchException e) {
+            System.out.println("You enterd invalid option");
+            selectAnAnimal();
         }
-        return choosseAnimal;
-  }
+    }
 
     private Animal initDog() {
         dog = new Dog();
@@ -142,7 +208,7 @@ public class Game {
         dog.setAge(5);
         dog.setGender("Male");
         dog.setFavoriteFood("Dry food");
-        dog.setFavoriteRecreationActivity("Running after the ball.");
+        dog.setFavoriteRecreationActivity("Running after the ball");
         dog.setHealthLevel(5);
         dog.setHungerLevel(3);
         dog.setMoodLevel(4);
@@ -167,7 +233,7 @@ public class Game {
     }
 
 
-    private List<AnimalFood> initFood() throws InterruptedException {
+    private void initFood() throws InterruptedException {
         AnimalFood food = new AnimalFood();
         food.setName("Dry food");
         food.setPrice(50);
@@ -212,8 +278,6 @@ public class Game {
         availableFoods.add(sixFood);
 
         displayFood();
-
-        return availableFoods;
     }
 
 
@@ -224,13 +288,13 @@ public class Game {
 
         for (AnimalFood food : availableFoods) {
             count++;
-            TimeUnit.MILLISECONDS.sleep(300);
+            TimeUnit.MILLISECONDS.sleep(200);
             System.out.println(count + ". " + food.getName());
         }
     }
 
 
-    private void initActivity() {
+    private void initActivity() throws InterruptedException {
         RecreationActivity recreationActivity = new RecreationActivity();
         recreationActivity.setName("Running after the ball");
 
@@ -240,18 +304,27 @@ public class Game {
         RecreationActivity thirdRecreationActivity = new RecreationActivity();
         thirdRecreationActivity.setName("It smells like traces");
 
+        RecreationActivity fourActivity = new RecreationActivity();
+        fourActivity.setName("Capnit toys");
+
+        RecreationActivity fiveActivity = new RecreationActivity();
+        fiveActivity.setName("Play with toys");
+
         availableActivitys[0] = recreationActivity;
         availableActivitys[1] = secondRecreationActivity;
         availableActivitys[2] = thirdRecreationActivity;
+        availableActivitys[3] = fourActivity;
+        availableActivitys[4] = fiveActivity;
 
         displayActivity();
 
     }
 
-    private void displayActivity() {
+    private void displayActivity() throws InterruptedException {
         System.out.println("Available activity: ");
 
         for (int i = 0; i < availableActivitys.length; i++) {
+            TimeUnit.MILLISECONDS.sleep(200);
             if (availableActivitys[i] != null) {
                 System.out.println(i + 1 + ". " + availableActivitys[i].getName());
             }

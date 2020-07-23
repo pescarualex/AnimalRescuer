@@ -1,32 +1,28 @@
 package org.fasttrackit.domain;
 
 import org.fasttrackit.domain.animals.Animal;
-import org.fasttrackit.controler.StdInControler;
-import org.fasttrackit.controler.utils.ScannerUtils;
 
 public class Rescuer{
 
     private String name;
     private double budget;
-    Animal animal;
-    String food;
 
 
 
-    public void feeding() {
-        setFood(ScannerUtils.readNextSingleLine());
 
-        if (getFood().equals(animal.getFavoriteFood())) {
+    public void feeding(Animal animal, AnimalFood food) {
+
+        if (food.getName() == animal.getFavoriteFood()) {
             System.out.println("Yeah, it's your favorite food.");
-            animal.setMoodLevel(animal.getHungerLevel() + 2);
+            animal.setHungerLevel(animal.getHungerLevel() + 2);
             System.out.println("Hunger level is: " + animal.getHungerLevel());
-        } else {
+        } else if (food.getName() != animal.getFavoriteFood()){
             System.out.println("Yes, i know, is not your favorite food.");
-            animal.setMoodLevel(animal.getHungerLevel() + 1);
+            animal.setHungerLevel(animal.getHungerLevel() + 1);
             System.out.println("Hunger level is: " + animal.getHungerLevel());
         }
 
-        System.out.println(name + " just gave some " + food + " to " + animal.getName() + ".");
+        System.out.println(name + " just gave some " + food.getName() + " to " + animal.getName() + ".");
 
     }
 
@@ -45,13 +41,6 @@ public class Rescuer{
 
         System.out.println(name + " is playing " + recreationActivity.getName() + " with " + animal.getName() );
 
-    }
-    public String getFood() {
-        return food;
-    }
-
-    public void setFood(String food) {
-        this.food = food;
     }
 
     public String getName() {
