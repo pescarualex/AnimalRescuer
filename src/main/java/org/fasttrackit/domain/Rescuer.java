@@ -2,21 +2,19 @@ package org.fasttrackit.domain;
 
 import org.fasttrackit.domain.animals.Animal;
 
-public class Rescuer{
+public class Rescuer {
 
     private String name;
     private double budget;
 
 
-
-
     public void feeding(Animal animal, AnimalFood food) {
 
-        if (food.getName() == animal.getFavoriteFood()) {
+        if (food.getName().equals(animal.getFavoriteFood())) {
             System.out.println("Yeah, it's your favorite food.");
             animal.setHungerLevel(animal.getHungerLevel() + 2);
             System.out.println("Hunger level is: " + animal.getHungerLevel());
-        } else if (food.getName() != animal.getFavoriteFood()){
+        } else if (!food.getName().equals(animal.getFavoriteFood())) {
             System.out.println("Yes, i know, is not your favorite food.");
             animal.setHungerLevel(animal.getHungerLevel() + 1);
             System.out.println("Hunger level is: " + animal.getHungerLevel());
@@ -26,7 +24,7 @@ public class Rescuer{
 
     }
 
-    public  void playActivity(Animal animal, RecreationActivity recreationActivity) {
+    public void playActivity(Animal animal, RecreationActivity recreationActivity) {
 
         if (recreationActivity.getName().equals(animal.getFavoriteRecreationActivity())) {
             System.out.println("It's your favorite activity!");
@@ -39,7 +37,7 @@ public class Rescuer{
 
         }
 
-        System.out.println(name + " is playing " + recreationActivity.getName() + " with " + animal.getName() );
+        System.out.println(name + " is playing " + recreationActivity.getName() + " with " + animal.getName());
 
     }
 
