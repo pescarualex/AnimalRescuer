@@ -12,6 +12,11 @@ public class ScannerUtils {
         return integer;
     }
 
+    public static double readNextSingleDouble() {
+        double doubleNum = SCANNER.nextDouble();
+        SCANNER.nextLine();
+        return doubleNum;
+    }
 
     public static String readNextSingleLine() {
         String value = SCANNER.next();

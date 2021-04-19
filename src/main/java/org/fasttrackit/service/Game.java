@@ -3,6 +3,7 @@ package org.fasttrackit.service;
 import org.fasttrackit.controler.StdInControler;
 import org.fasttrackit.controler.utils.ScannerUtils;
 import org.fasttrackit.domain.AnimalFood;
+import org.fasttrackit.domain.AnimalsShop;
 import org.fasttrackit.domain.RecreationActivity;
 import org.fasttrackit.domain.Rescuer;
 import org.fasttrackit.domain.animals.Animal;
@@ -10,15 +11,11 @@ import org.fasttrackit.domain.animals.Cat;
 import org.fasttrackit.domain.animals.Dog;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
 public class Game {
-
 
     StdInControler controler = new StdInControler();
 
@@ -34,10 +31,14 @@ public class Game {
 
     private final List<AnimalFood> availableFoods = new ArrayList<>();
     private final RecreationActivity[] availableActivities = new RecreationActivity[5];
+    private final Set<AnimalsShop> animalsShops = new HashSet<>();
 
     public void start() throws InterruptedException {
         System.out.println("Welcome to the Animal Rescuer game!");
         System.out.println();
+
+        initFood();
+        initActivity();
 
         initRescuer(rescuer);
 
@@ -46,11 +47,26 @@ public class Game {
 
         selectAnAnimal();
 
+        System.out.println("\nI want to go at the animals shop to buy you some food.");
+        TimeUnit.SECONDS.sleep(1);
+
+        System.out.println("Here we are, in the shop.\n");
+        TimeUnit.SECONDS.sleep(1);
+
+        System.out.println("Ok, let's see, what they have..");
+        addFoodInTheShop();
+        displayFoodInShop();
+
+        System.out.println("I think.. hmm.. "); //finish these phrase
+
+        //TODO: implement functionality for buying from shop (19.04.2021, 3:51 PM)
+
+
+
+        TimeUnit.SECONDS.sleep(1);
         System.out.println("Let's go home now!");
         TimeUnit.SECONDS.sleep(1);
 
-        initFood();
-        initActivity();
 
         while (countTheRound < 6 && winnerNotKnow) {
             playOneRound();
@@ -62,28 +78,45 @@ public class Game {
                     "Hunger level is " + animal.getHungerLevel() + "\n" +
                     "Mood level is " + animal.getMoodLevel());
         }
-
-
     }
 
-    private void playOneRound() throws InterruptedException {
+    private void playOneRound() {
         System.out.println();
         System.out.println("Round " + countTheRound++ + "\n");
 
-        System.out.println("What do you want?\n" +
+        System.out.println("What do you want to do?\n" +
                 "1. Give some food to eat\n" +
                 "2. Play an activity");
 
-
-        int getChooiseFromUser = ScannerUtils.readNextSingleInt();
         System.out.println();
 
-        if (getChooiseFromUser == 1) {
-            requireFeeding();
-        } else if (getChooiseFromUser == 2){
-            requireActivity();
-        } else {
-            System.out.println("The chooise do not exist. Chooise again: ");
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            int getChooiseFromUser = 0;
+
+            try {
+                getChooiseFromUser = scanner.nextInt();
+
+                if (getChooiseFromUser <= 0) {
+                    System.out.println("You entered an invalid option. Try again!");
+                    playOneRound();
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("You entered an invalid option. Try again!");
+                playOneRound();
+            }
+
+            if (getChooiseFromUser == 1) {
+                requireFeeding();
+            } else if (getChooiseFromUser == 2) {
+                requireActivity();
+            } else {
+                System.out.println("The choose do not exist. Choose again: ");
+                playOneRound();
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Sorry, here is a problem.. Will be loaded again very soon.");
             playOneRound();
         }
 
@@ -94,18 +127,19 @@ public class Game {
                     "Mood level is " + animal.getMoodLevel());
             winnerNotKnow = false;
         }
+
+        scanner.close();
     }
 
 
     private void requireFeeding() throws InterruptedException {
-            displayFood();
-            rescuer.feeding(animal, getFoodFromUser(food));
+        displayFood();
+        rescuer.feeding(animal, getFoodFromUser(food));
     }
-//
-    private void requireActivity() throws InterruptedException {
 
-            displayActivity();
-            rescuer.playActivity(animal, getActivityFromUser(activity));
+    private void requireActivity() throws InterruptedException {
+        displayActivity();
+        rescuer.playActivity(animal, getActivityFromUser(activity));
     }
 
     private AnimalFood getFoodFromUser(AnimalFood food) {
@@ -154,11 +188,10 @@ public class Game {
         return controler.getNameOfAnimal();
     }
 
-    private Rescuer initRescuer(Rescuer rescuer) {
+    private void initRescuer(Rescuer rescuer) {
         this.rescuer = rescuer;
 
         System.out.println("Please enter the name of rescuer: ");
-
         rescuer.setName(ScannerUtils.readNextSingleLine());
 
         if (!rescuer.getName().matches("[a-zA-Z]+")) {
@@ -166,7 +199,14 @@ public class Game {
             initRescuer(rescuer);
         }
 
-        return rescuer;
+        System.out.println("Enter the budget: ");
+
+        try {
+            rescuer.setBudget(ScannerUtils.readNextSingleDouble());
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid data.");
+            initRescuer(rescuer);
+        }
     }
 
 
@@ -202,6 +242,12 @@ public class Game {
         dog = new Dog();
         System.out.println("What name want to give him? ");
         dog.setName(getNameOfAnimal());
+
+        if (!dog.getName().matches("[a-zA-Z]+")) {
+            System.out.println("His name it's made of from letters, you silly.");
+            initDog();
+        }
+
         dog.setBreed("German BRAC");
         dog.setAge(5);
         dog.setGender("Male");
@@ -218,6 +264,12 @@ public class Game {
         cat = new Cat();
         System.out.println("What name want to give him? ");
         cat.setName(getNameOfAnimal());
+
+        if (!cat.getName().matches("[a-zA-Z]+")) {
+            System.out.println("His name it's made of from letters, you silly.");
+            initCat();
+        }
+
         cat.setBreed("British Shorthair");
         cat.setAge(3);
         cat.setGender("Female");
@@ -230,52 +282,73 @@ public class Game {
         return cat;
     }
 
+    private void addFoodInTheShop() {
+        for (AnimalFood animalFood : availableFoods) {
+            AnimalsShop animalsShop = new AnimalsShop();
+            animalsShop.setFoodName(animalFood.getName());
+            animalsShop.setPrice(animalFood.getPrice());
+            animalsShop.setQuantity((int) animalFood.getQuantity());
+            animalsShop.setExpirationDate(animalFood.getExpirationDate());
+
+            animalsShops.add(animalsShop);
+
+        }
+    }
+
+    private void displayFoodInShop() {
+        int count = 1;
+        for (AnimalsShop animalsShop : animalsShops) {
+            System.out.println(count + ". " + animalsShop.getFoodName() + ", Price: " + animalsShop.getPrice() +
+                    ", Quantity: " + animalsShop.getQuantity() + ", " + animalsShop.getExpirationDate());
+            count++;
+        }
+    }
+
 
     private void initFood() {
 
-            AnimalFood food = new AnimalFood();
-            food.setName("Dry food");
-            food.setPrice(50);
-            food.setQuantity(5);
-            food.setExpirationDate(LocalDate.of(2020, 9, 15));
+        AnimalFood food = new AnimalFood();
+        food.setName("Dry food");
+        food.setPrice(50);
+        food.setQuantity(5);
+        food.setExpirationDate(LocalDate.of(2021, 9, 15));
 
-            AnimalFood secondFood = new AnimalFood();
-            secondFood.setName("Meet");
-            secondFood.setPrice(42);
-            secondFood.setQuantity(3);
-            secondFood.setExpirationDate(LocalDate.of(2020, 9, 17));
+        AnimalFood secondFood = new AnimalFood();
+        secondFood.setName("Meet");
+        secondFood.setPrice(42);
+        secondFood.setQuantity(3);
+        secondFood.setExpirationDate(LocalDate.of(2021, 9, 17));
 
-            AnimalFood thirdFood = new AnimalFood();
-            thirdFood.setName("Chicken");
-            thirdFood.setPrice(38);
-            thirdFood.setQuantity(6);
-            thirdFood.setExpirationDate(LocalDate.of(2020, 7, 26));
+        AnimalFood thirdFood = new AnimalFood();
+        thirdFood.setName("Chicken");
+        thirdFood.setPrice(38);
+        thirdFood.setQuantity(6);
+        thirdFood.setExpirationDate(LocalDate.of(2021, 7, 26));
 
-            AnimalFood fourFood = new AnimalFood();
-            fourFood.setName("Whiskas");
-            fourFood.setPrice(30);
-            fourFood.setQuantity(4);
-            fourFood.setExpirationDate(LocalDate.of(2020, 9, 23));
+        AnimalFood fourFood = new AnimalFood();
+        fourFood.setName("Whiskas");
+        fourFood.setPrice(30);
+        fourFood.setQuantity(4);
+        fourFood.setExpirationDate(LocalDate.of(2021, 9, 23));
 
-            AnimalFood fiveFood = new AnimalFood();
-            fiveFood.setName("Wet food");
-            fiveFood.setPrice(25);
-            fiveFood.setQuantity(8);
-            fiveFood.setExpirationDate(LocalDate.of(2020, 10, 3));
+        AnimalFood fiveFood = new AnimalFood();
+        fiveFood.setName("Wet food");
+        fiveFood.setPrice(25);
+        fiveFood.setQuantity(8);
+        fiveFood.setExpirationDate(LocalDate.of(2021, 10, 3));
 
-            AnimalFood sixFood = new AnimalFood();
-            sixFood.setName("Chiken in souce");
-            sixFood.setPrice(65);
-            sixFood.setQuantity(6);
-            sixFood.setExpirationDate(LocalDate.of(2020, 11, 9));
+        AnimalFood sixFood = new AnimalFood();
+        sixFood.setName("Chiken in souce");
+        sixFood.setPrice(65);
+        sixFood.setQuantity(6);
+        sixFood.setExpirationDate(LocalDate.of(2021, 11, 9));
 
-            availableFoods.add(food);
-            availableFoods.add(secondFood);
-            availableFoods.add(thirdFood);
-            availableFoods.add(fourFood);
-            availableFoods.add(fiveFood);
-            availableFoods.add(sixFood);
-
+        availableFoods.add(food);
+        availableFoods.add(secondFood);
+        availableFoods.add(thirdFood);
+        availableFoods.add(fourFood);
+        availableFoods.add(fiveFood);
+        availableFoods.add(sixFood);
 
 
     }
