@@ -9,7 +9,6 @@ public class Rescuer {
 
 
     public void feeding(Animal animal, AnimalFood food) {
-
         if (food.getName().equals(animal.getFavoriteFood())) {
             System.out.println("Yeah, it's your favorite food.");
             animal.setHungerLevel(animal.getHungerLevel() + 2);
@@ -25,7 +24,6 @@ public class Rescuer {
     }
 
     public void playActivity(Animal animal, RecreationActivity recreationActivity) {
-
         if (recreationActivity.getName().equals(animal.getFavoriteRecreationActivity())) {
             System.out.println("It's your favorite activity!");
             animal.setMoodLevel(animal.getMoodLevel() + 2);
@@ -34,11 +32,9 @@ public class Rescuer {
             System.out.println("Yep, it's not your favorite activity, but it's fun.");
             animal.setMoodLevel(animal.getMoodLevel() + 1);
             System.out.println("Mood level is: " + animal.getMoodLevel());
-
         }
 
         System.out.println(name + " is playing " + recreationActivity.getName() + " with " + animal.getName());
-
     }
 
     public String getName() {

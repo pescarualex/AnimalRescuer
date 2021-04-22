@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Game {
 
-    StdInControler controler = new StdInControler();
+    StdInControler controller = new StdInControler();
 
     Rescuer rescuer = new Rescuer();
     Animal dog;
@@ -62,7 +62,6 @@ public class Game {
         //TODO: implement functionality for buying from shop (19.04.2021, 3:51 PM)
 
 
-
         TimeUnit.SECONDS.sleep(1);
         System.out.println("Let's go home now!");
         TimeUnit.SECONDS.sleep(1);
@@ -93,12 +92,12 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
 
         try {
-            int getChooiseFromUser = 0;
+            int getChooseFromUser = 0;
 
             try {
-                getChooiseFromUser = scanner.nextInt();
+                getChooseFromUser = scanner.nextInt();
 
-                if (getChooiseFromUser <= 0) {
+                if (getChooseFromUser <= 0) {
                     System.out.println("You entered an invalid option. Try again!");
                     playOneRound();
                 }
@@ -107,9 +106,9 @@ public class Game {
                 playOneRound();
             }
 
-            if (getChooiseFromUser == 1) {
+            if (getChooseFromUser == 1) {
                 requireFeeding();
-            } else if (getChooiseFromUser == 2) {
+            } else if (getChooseFromUser == 2) {
                 requireActivity();
             } else {
                 System.out.println("The choose do not exist. Choose again: ");
@@ -122,70 +121,103 @@ public class Game {
 
         if (animal.getHungerLevel() >= 8 && animal.getMoodLevel() >= 8) {
             System.out.println();
-            System.out.println("You win the game! Congratz!\n" +
+            System.out.println("You win the game! Congrats!\n" +
                     "Hunger level is " + animal.getHungerLevel() + "\n" +
                     "Mood level is " + animal.getMoodLevel());
             winnerNotKnow = false;
         }
-
-        scanner.close();
     }
-
 
     private void requireFeeding() throws InterruptedException {
         displayFood();
-        rescuer.feeding(animal, getFoodFromUser(food));
+        AnimalFood animalFood = getFoodFromUser(food);
+        if (animalFood != null)
+            rescuer.feeding(animal, animalFood);
     }
 
     private void requireActivity() throws InterruptedException {
         displayActivity();
-        rescuer.playActivity(animal, getActivityFromUser(activity));
+        RecreationActivity activity = new RecreationActivity();
+        activity = getActivityFromUser(activity);
+        if (activity != null)
+            rescuer.playActivity(animal, activity);
     }
 
     private AnimalFood getFoodFromUser(AnimalFood food) {
-        this.food = food;
-        for (AnimalFood dish : availableFoods) {
+        try {
+            this.food = food;
+            Scanner scanner = new Scanner(System.in);
             System.out.println("What you give?");
-            int chooseFood = ScannerUtils.readNextSingleInt();
-            if (chooseFood == 1) {
-                food = availableFoods.get(0);
-            } else if (chooseFood == 2) {
-                food = availableFoods.get(1);
-            } else if (chooseFood == 3) {
-                food = availableFoods.get(2);
-            } else if (chooseFood == 4) {
-                food = availableFoods.get(3);
-            } else if (chooseFood == 5) {
-                food = availableFoods.get(4);
-            } else if (chooseFood == 6) {
-                food = availableFoods.get(5);
+            int chooseFood = scanner.nextInt();
+
+            switch (chooseFood) {
+                case 1:
+                    food = availableFoods.get(0);
+                    break;
+                case 2:
+                    food = availableFoods.get(1);
+                    break;
+                case 3:
+                    food = availableFoods.get(2);
+                    break;
+                case 4:
+                    food = availableFoods.get(3);
+                    break;
+                case 5:
+                    food = availableFoods.get(4);
+                    break;
+                case 6:
+                    food = availableFoods.get(5);
+                    break;
+                default:
+                    System.out.println("These option is not available. Try again!");
+                    return null;
             }
-            return food;
+        } catch (InputMismatchException e) {
+            System.out.println("These option is not available. Try again!");
+            return null;
         }
+
         return food;
     }
 
     private RecreationActivity getActivityFromUser(RecreationActivity activity) {
-        this.activity = activity;
-        System.out.println("What activity want to play with " + animal.getName() + "?");
-        int chooseActivity = ScannerUtils.readNextSingleInt();
-        if (chooseActivity == 1) {
-            activity = availableActivities[0];
-        } else if (chooseActivity == 2) {
-            activity = availableActivities[1];
-        } else if (chooseActivity == 3) {
-            activity = availableActivities[2];
-        } else if (chooseActivity == 4) {
-            activity = availableActivities[3];
-        } else if (chooseActivity == 5) {
-            activity = availableActivities[4];
+        try {
+            this.activity = activity;
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("What activity want to play with " + animal.getName() + "?");
+            int chooseActivity = scanner.nextInt();
+
+            switch (chooseActivity) {
+                case 1:
+                    activity = availableActivities[0];
+                    break;
+                case 2:
+                    activity = availableActivities[1];
+                    break;
+                case 3:
+                    activity = availableActivities[2];
+                    break;
+                case 4:
+                    activity = availableActivities[3];
+                    break;
+                case 5:
+                    activity = availableActivities[4];
+                    break;
+                default:
+                    System.out.println("These option is not available. Try again!");
+                    return null;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("These option is not available. Try again!");
+            return null;
         }
         return activity;
     }
 
 
     public String getNameOfAnimal() {
-        return controler.getNameOfAnimal();
+        return controller.getNameOfAnimal();
     }
 
     private void initRescuer(Rescuer rescuer) {
@@ -216,9 +248,9 @@ public class Game {
         System.out.println("1. Dog");
         System.out.println("2. Cat");
 
+        Scanner scanner = new Scanner(System.in);
 
         try {
-            Scanner scanner = new Scanner(System.in);
             int i = scanner.nextInt();
 
             if (i == 1) {
@@ -229,13 +261,14 @@ public class Game {
                 animal = initCat();
                 System.out.println("Your animal is a Cat, named: " + animal.getName());
             } else {
-                System.out.println("This chooise is not available, try again: ");
+                System.out.println("This choose is not available, try again: ");
                 selectAnAnimal();
             }
         } catch (InputMismatchException e) {
             System.out.println("You entered invalid option");
             selectAnAnimal();
         }
+
     }
 
     private Animal initDog() {
@@ -248,7 +281,7 @@ public class Game {
             initDog();
         }
 
-        dog.setBreed("German BRAC");
+        dog.setBreed("German BRACT");
         dog.setAge(5);
         dog.setGender("Male");
         dog.setFavoriteFood("Dry food");
@@ -270,7 +303,7 @@ public class Game {
             initCat();
         }
 
-        cat.setBreed("British Shorthair");
+        cat.setBreed("British Shorthaired");
         cat.setAge(3);
         cat.setGender("Female");
         cat.setFavoriteFood("Whiskas");
@@ -338,7 +371,7 @@ public class Game {
         fiveFood.setExpirationDate(LocalDate.of(2021, 10, 3));
 
         AnimalFood sixFood = new AnimalFood();
-        sixFood.setName("Chiken in souce");
+        sixFood.setName("Chicken in sauce");
         sixFood.setPrice(65);
         sixFood.setQuantity(6);
         sixFood.setExpirationDate(LocalDate.of(2021, 11, 9));
