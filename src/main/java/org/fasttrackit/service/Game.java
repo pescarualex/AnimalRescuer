@@ -33,6 +33,8 @@ public class Game {
     private final RecreationActivity[] availableActivities = new RecreationActivity[5];
     private final Set<AnimalsShop> animalsShops = new HashSet<>();
 
+    // this throw InteruptedException because Of
+    // sleep function
     public void start() throws InterruptedException {
         System.out.println("Welcome to the Animal Rescuer game!");
         System.out.println();
@@ -91,7 +93,6 @@ public class Game {
 
         Scanner scanner = new Scanner(System.in);
 
-        try {
             int getChooseFromUser = 0;
 
             try {
@@ -114,10 +115,6 @@ public class Game {
                 System.out.println("The choose do not exist. Choose again: ");
                 playOneRound();
             }
-        } catch (InterruptedException e) {
-            System.out.println("Sorry, here is a problem.. Will be loaded again very soon.");
-            playOneRound();
-        }
 
         if (animal.getHungerLevel() >= 8 && animal.getMoodLevel() >= 8) {
             System.out.println();
@@ -128,15 +125,27 @@ public class Game {
         }
     }
 
-    private void requireFeeding() throws InterruptedException {
-        displayFood();
+    private void requireFeeding() {
+        try {
+            displayFood();
+        } catch (InterruptedException e) {
+            System.out.println("Your data will be loaded in a moment, sorry!");
+            requireFeeding();
+        }
+
         AnimalFood animalFood = getFoodFromUser(food);
         if (animalFood != null)
             rescuer.feeding(animal, animalFood);
     }
 
-    private void requireActivity() throws InterruptedException {
-        displayActivity();
+    private void requireActivity() {
+        try {
+            displayActivity();
+        } catch (InterruptedException e) {
+            System.out.println("Your data will be loaded in a moment, sorry!");
+            requireActivity();
+        }
+
         RecreationActivity activity = new RecreationActivity();
         activity = getActivityFromUser(activity);
         if (activity != null)
@@ -324,7 +333,6 @@ public class Game {
             animalsShop.setExpirationDate(animalFood.getExpirationDate());
 
             animalsShops.add(animalsShop);
-
         }
     }
 
@@ -382,8 +390,6 @@ public class Game {
         availableFoods.add(fourFood);
         availableFoods.add(fiveFood);
         availableFoods.add(sixFood);
-
-
     }
 
 
@@ -421,7 +427,6 @@ public class Game {
         availableActivities[2] = thirdRecreationActivity;
         availableActivities[3] = fourActivity;
         availableActivities[4] = fiveActivity;
-
     }
 
     private void displayActivity() throws InterruptedException {
