@@ -31,16 +31,17 @@ public class Game {
 
     private final List<AnimalFood> availableFoods = new ArrayList<>();
     private final RecreationActivity[] availableActivities = new RecreationActivity[5];
-    private final Set<AnimalsShop> animalsShops = new HashSet<>();
+    private final List<AnimalsShop> animalsShops = new ArrayList<>();
+    private final List<AnimalFood> foodBought = new ArrayList<>();
 
-    // this throw InteruptedException because Of
-    // sleep function
+    // this throw InterruptedException because Of sleep function
     public void start() throws InterruptedException {
         System.out.println("Welcome to the Animal Rescuer game!");
         System.out.println();
 
         initFood();
         initActivity();
+        addFoodInTheShop();
 
         initRescuer(rescuer);
 
@@ -49,20 +50,8 @@ public class Game {
 
         selectAnAnimal();
 
-        System.out.println("\nI want to go at the animals shop to buy you some food.");
-        TimeUnit.SECONDS.sleep(1);
-
-        System.out.println("Here we are, in the shop.\n");
-        TimeUnit.SECONDS.sleep(1);
-
-        System.out.println("Ok, let's see, what they have..");
-        addFoodInTheShop();
-        displayFoodInShop();
-
-        System.out.println("I think.. hmm.. "); //finish these phrase
-
-        //TODO: implement functionality for buying from shop (19.04.2021, 3:51 PM)
-
+        // TODO:: implement functionality which decreases from budget value of food
+        //        when buying.
 
         TimeUnit.SECONDS.sleep(1);
         System.out.println("Let's go home now!");
@@ -81,40 +70,43 @@ public class Game {
         }
     }
 
-    private void playOneRound() {
+    private void playOneRound() throws InterruptedException {
         System.out.println();
         System.out.println("Round " + countTheRound++ + "\n");
 
         System.out.println("What do you want to do?\n" +
                 "1. Give some food to eat\n" +
-                "2. Play an activity");
+                "2. Play an activity\n" +
+                "3. Go to the shop to get food");
 
         System.out.println();
 
         Scanner scanner = new Scanner(System.in);
 
-            int getChooseFromUser = 0;
+        int getChooseFromUser = 0;
 
-            try {
-                getChooseFromUser = scanner.nextInt();
+        try {
+            getChooseFromUser = scanner.nextInt();
 
-                if (getChooseFromUser <= 0) {
-                    System.out.println("You entered an invalid option. Try again!");
-                    playOneRound();
-                }
-            } catch (InputMismatchException e) {
+            if (getChooseFromUser <= 0) {
                 System.out.println("You entered an invalid option. Try again!");
                 playOneRound();
             }
+        } catch (InputMismatchException e) {
+            System.out.println("You entered an invalid option. Try again!");
+            playOneRound();
+        }
 
-            if (getChooseFromUser == 1) {
-                requireFeeding();
-            } else if (getChooseFromUser == 2) {
-                requireActivity();
-            } else {
-                System.out.println("The choose do not exist. Choose again: ");
-                playOneRound();
-            }
+        if (getChooseFromUser == 1) {
+            requireFeeding();
+        } else if (getChooseFromUser == 2) {
+            requireActivity();
+        } else if (getChooseFromUser == 3) {
+            getFoodFromShop();
+        } else {
+            System.out.println("The choose do not exist. Choose again: ");
+            playOneRound();
+        }
 
         if (animal.getHungerLevel() >= 8 && animal.getMoodLevel() >= 8) {
             System.out.println();
@@ -123,6 +115,80 @@ public class Game {
                     "Mood level is " + animal.getMoodLevel());
             winnerNotKnow = false;
         }
+    }
+
+    //throws exception because .sleep method
+    private void getFoodFromShop() throws InterruptedException {
+        System.out.println("\nI want to go at the animals shop to buy you some food.");
+        TimeUnit.SECONDS.sleep(1);
+
+        System.out.println("Here we are, in the shop.\n");
+        TimeUnit.SECONDS.sleep(1);
+
+        System.out.println("Ok, let's see, what they have..");
+        displayFoodInShop();
+
+        System.out.println("What you want to buy? To exit, press '0'.");
+
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            int chooseFood = scanner.nextInt();
+
+                if (chooseFood == 1) {
+                    addFoodFromShopInCart(chooseFood);
+                } else if (chooseFood == 2) {
+                    addFoodFromShopInCart(chooseFood);
+                } else if (chooseFood == 3) {
+                    addFoodFromShopInCart(chooseFood);
+                } else if (chooseFood == 4) {
+                    addFoodFromShopInCart(chooseFood);
+                } else if (chooseFood == 5) {
+                    addFoodFromShopInCart(chooseFood);
+                } else if (chooseFood == 6) {
+                    addFoodFromShopInCart(chooseFood);
+                } else if (chooseFood == 0) {
+                    System.out.println("We can go now.");
+                    playOneRound();
+                } else {
+                    System.out.println("That not match. Try again!");
+                    getFoodFromShop();
+                }
+        } catch (InputMismatchException e) {
+            System.out.println("This option in not valid. Try again carefully!");
+            getFoodFromShop();
+        }
+    }
+
+    // adding in cart(foodBought) the food which you choosing,
+    // and then the quantity if that is equal or less than in the shop
+    // and change quantity in the shop
+    private void addFoodFromShopInCart(int i) throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+
+        foodBought.add(i - 1, availableFoods.get(i - 1));
+        System.out.println("Ok, " + foodBought.get(i - 1).getName() + " be. How many?");
+
+        try {
+            int howManyFood = scanner.nextInt();
+
+            if (animalsShops.get(i - 1).getQuantity() == 0) {
+                System.out.println("Sorry, we don't have any more.");
+            } else {
+                if (availableFoods.get(i - 1).getQuantity() > howManyFood || availableFoods.
+                        get(i - 1).getQuantity() == howManyFood) {
+                    animalsShops.get(i - 1).setQuantity(animalsShops.get(i - 1).getQuantity() - howManyFood);
+                    foodBought.get(i - 1).setQuantity(howManyFood);
+                } else {
+                    System.out.println("Sorry, we don't have that many..");
+                }
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("This option in not valid. Try again carefully!");
+            getFoodFromShop();
+        }
+
+
     }
 
     private void requireFeeding() {
@@ -392,13 +458,13 @@ public class Game {
         availableFoods.add(sixFood);
     }
 
-
+    //display food from list which buying from shop
     private void displayFood() throws InterruptedException {
         System.out.println("I have this: ");
 
         int count = 0;
 
-        for (AnimalFood food : availableFoods) {
+        for (AnimalFood food : foodBought) {
             count++;
             TimeUnit.MILLISECONDS.sleep(200);
             System.out.println(count + ". " + food.getName());
